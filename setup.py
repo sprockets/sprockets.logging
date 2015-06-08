@@ -7,23 +7,9 @@ import setuptools
 import sprockets.logging
 
 
-def read_requirements_file(req_name):
-    requirements = []
-    try:
-        with codecs.open(req_name, encoding='utf-8') as req_file:
-            for req_line in req_file:
-                if '#' in req_line:
-                    req_line = req_line[0:req_line.find('#')].strip()
-                if req_line:
-                    requirements.append(req_line.strip())
-    except IOError:
-        pass
-    return requirements
-
-
-install_requires = read_requirements_file('requirements.txt')
-setup_requires = read_requirements_file('setup-requirements.txt')
-tests_require = read_requirements_file('test-requirements.txt')
+install_requires = []
+setup_requires = []
+tests_require = ['nose>=1.3,<2']
 
 if sys.version_info < (3, 0):
     tests_require.append('mock')

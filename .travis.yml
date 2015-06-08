@@ -6,9 +6,8 @@ python:
   - pypy
   - 3.4
 before_install:
-  - pip install codecov
+  - pip install nose coverage codecov
 install:
-  - pip install -r test-requirements.txt
   - pip install -e .
 script: nosetests
 after_success:
