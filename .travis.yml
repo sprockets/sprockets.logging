@@ -1,14 +1,22 @@
-%YAML 1.1
----
 language: python
 python:
-  - 2.7
-  - pypy
-  - 3.4
+- 2.7
+- pypy
+- 3.4
 before_install:
-  - pip install nose coverage codecov
+- pip install nose coverage codecov
 install:
-  - pip install -e .
+- pip install -e .
 script: nosetests
 after_success:
-  - codecov
+- codecov
+deploy:
+  distributions: sdist bdist_wheel
+  provider: pypi
+  user: sprockets
+  password:
+    secure: hLpyNQOIO8yvvltkQUjMQrTE63E08fDCN4b4wdBEhLwbP7TLJmY2UllXtZyk8uahc0YcvFOin+ykhv4c/22AnuwCqkFaGVM6UjkNPzs3iYQF0P/soygoj+89FvsGq5ew/pk8/Dz1dkNjoDINT99DegRCW/sGNkc31kWIx2p4iefHQf/LRKezkVMzscSFihEWlOViQQX/6QJpNmJ7KpMGSPPajRX6gSkvhMVfVk1A4EVH7EzDJKE1q7YI5JA8bqAa3U3VQMv4rvptCt3+6SuZqh5BPj0cgvCz62Ng9hyQy5p0+/sBLg3IO9YDkGEde8YS4vzcy01IQaGS4MlSegdQrllkF9FEvj7ywC49d2qrn4+qFsqZe61VkG2C/JxnAbyuHCMqXKeYC74unoC+qP2+7edHMDXH8grLZSR05u6MUFlf1olnvh+lz0WGyLcf10rf2zPb8dIaHMokbsbALPbk5KjGIcGsc1vso2WzUFBs0Ik5bKpDmggOBCYGUS+BFL+vcXGDX8PeoYsPjLMrCnsHc975sEjvCUZtmpCjDG6fYeddhVgLfbRUGGXvz9cVDVHCXgpL9/6EqlD/8GqUQyzKCXPWYiqPVRnPLUTAorJPPiK4utuWeqc34s/InIC8KTtiyelroR87S0e3N7z5aeXxtwdAR5yFvjx7o3ewgSNWwlU=
+  on:
+    python: 3.4
+    tags: true
+    all_branches: true
