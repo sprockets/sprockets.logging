@@ -2,7 +2,7 @@ sprockets.logging
 =================
 Making logs nicer since 2015!
 
-|Version| |Downloads| |Status| |Coverage| |License|
+|Version| |Downloads| |Travis| |CodeCov| |ReadTheDocs|
 
 Installation
 ------------
@@ -30,23 +30,23 @@ This examples demonstrates the most basic usage of ``sprockets.logging``
 
    import logging
    import sys
-   
+
    import sprockets.logging
-   
-   
+
+
    formatter = logging.Formatter('%(levelname)s %(message)s {%(context)s}')
    handler = logging.StreamHandler(sys.stdout)
    handler.setFormatter(formatter)
    handler.addFilter(sprockets.logging.ContextFilter(properties=['context']))
    logging.Logger.root.addHandler(handler)
    logging.Logger.root.setLevel(logging.DEBUG)
-   
+
    # Outputs: INFO Hi there {None}
    logging.info('Hi there')
-   
+
    # Outputs: INFO No KeyError {bah}
    logging.info('No KeyError', extra={'context': 'bah'})
-   
+
    # Outputs: INFO Now with context! {foo}
    adapted = logging.LoggerAdapter(logging.Logger.root, extra={'context': 'foo'})
    adapted.info('Now with context!')
@@ -63,14 +63,14 @@ License
 .. |Version| image:: https://badge.fury.io/py/sprockets.logging.svg?
    :target: http://badge.fury.io/py/sprockets.logging
 
-.. |Status| image:: https://travis-ci.org/sprockets/sprockets.logging.svg?branch=master
+.. |Travis| image:: https://travis-ci.org/sprockets/sprockets.logging.svg?branch=master
    :target: https://travis-ci.org/sprockets/sprockets.logging
 
-.. |Coverage| image:: http://codecov.io/github/sprockets/sprockets.logging/coverage.svg?branch=master
+.. |CodeCov| image:: http://codecov.io/github/sprockets/sprockets.logging/coverage.svg?branch=master
    :target: https://codecov.io/github/sprockets/sprockets.logging?branch=master
 
 .. |Downloads| image:: https://pypip.in/d/sprockets.logging/badge.svg?
    :target: https://pypi.python.org/pypi/sprockets.logging
 
-.. |License| image:: https://pypip.in/license/sprockets.logging/badge.svg?
+.. |ReadTheDocs| image:: https://readthedocs.org/projects/sprocketslogging/badge/
    :target: https://sprocketslogging.readthedocs.org
