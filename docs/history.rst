@@ -3,4 +3,4 @@ Version History
 
 Next Release
 ------------
- - implement greatness
+ - Added :class:`sprockets.logging.ContextFilter`
