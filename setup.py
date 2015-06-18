@@ -9,7 +9,7 @@ import sprockets.logging
 
 install_requires = []
 setup_requires = []
-tests_require = ['nose>=1.3,<2']
+tests_require = ['nose>=1.3,<2', 'tornado>3,<5']
 
 if sys.version_info < (3, 0):
     tests_require.append('mock')
@@ -23,6 +23,7 @@ setuptools.setup(
     author='Dave Shawley',
     author_email='daves@aweber.com',
     license='BSD',
+    extras_require={'tornado': ['tornado>3,<5']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

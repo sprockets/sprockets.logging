@@ -17,3 +17,16 @@ the custom filter and format string into the logging infrastructure and
 insert context easily with :class:`logging.LoggerAdapter`.
 
 .. literalinclude:: ../examples/tornado-app.py
+
+
+Tornado Application JSON Logging
+--------------------------------
+If you're looking to log Tornado requests as JSON, the
+:class:`sprockets.logging.JSONRequestFormatter` class works in conjunction with
+the :method:`tornado_log_function` method to output all Tornado log entries as
+JSON objects. In the following example, the dictionary-based configuration is
+expanded upon to include specify the :class:`sprockets.logging.JSONRequestFormatter`
+as the formatter and passes :method:`tornado_log_function` in as the ``log_function``
+when creating the Tornado application.
+
+.. literalinclude:: ../examples/tornado-json-logger.py
