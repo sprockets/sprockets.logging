@@ -13,7 +13,8 @@ templates_path = []
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'sprockets.logging'
-copyright = '2015, Dave Shawley'
+author = 'Dave Shawley'
+copyright = '2015, AWeber Communications'
 version = '.'.join(__version__.split('.')[0:1])
 release = __version__
 if len(version_info) > 3:
@@ -25,4 +26,5 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
     'sprockets': ('https://sprockets.readthedocs.org/en/latest/', None),
+    'tornado': ('http://www.tornadoweb.org/en/stable/', None),
 }

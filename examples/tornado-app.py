@@ -13,31 +13,30 @@ LOG_CONFIG = {
          'class': 'logging.StreamHandler',
          'stream': 'ext://sys.stdout',
          'formatter': 'simple',
-         'filters': ['context'],
-      },
+         'filters': ['context']
+      }
    },
    'formatters': {
       'simple': {
-         'class': 'logging.Formatter',
-         'format': '%(levelname)s %(name)s: %(message)s [%(context)s]',
-      },
+         '()': sprockets.logging.JSONRequestFormatter
+      }
    },
    'filters': {
       'context': {
          '()': 'sprockets.logging.ContextFilter',
-         'properties': ['context'],
-      },
+         'properties': ['context']
+      }
    },
    'loggers': {
       'tornado': {
-         'level': 'DEBUG',
-      },
+         'level': 'DEBUG'
+      }
    },
    'root': {
       'handlers': ['console'],
-      'level': 'DEBUG',
+      'level': 'DEBUG'
    },
-   'incremental': False,
+   'incremental': False
 }
 
 
@@ -69,7 +68,7 @@ if __name__ == '__main__':
    app = web.Application([
       web.url('/(?P<object_id>\w+)', RequestHandler,
               kwargs={'parent_log': logger}),
-   ])
+   ], log_function=sprockets.logging.tornado_log_function)
    app.listen(8000)
    signal.signal(signal.SIGINT, sig_handler)
    signal.signal(signal.SIGTERM, sig_handler)
