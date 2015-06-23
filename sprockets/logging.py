@@ -13,13 +13,14 @@ from __future__ import absolute_import
 from logging import config
 import json
 import logging
+import sys
 
 try:
     from tornado import log
 except ImportError:
     log = None
 
-version_info = (1, 1, 0)
+version_info = (1, 2, 0)
 __version__ = '.'.join(str(v) for v in version_info)
 
 # Shortcut methods and constants to avoid needing to import logging directly
@@ -71,15 +72,22 @@ class JSONRequestFormatter(logging.Formatter):
         :rtype: str
 
         """
-        return json.dumps({'name': record.name,
-                           'module': record.module,
-                           'level': logging.getLevelName(record.levelno),
-                           'line_number': record.lineno,
-                           'process': record.processName,
-                           'timestamp': self.formatTime(record),
-                           'thread': record.threadName,
-                           'file': record.filename,
-                           'request': record.args}, sort_keys=True)
+        output = {'name': record.name,
+                  'module': record.module,
+                  'message': record.msg % record.args,
+                  'level': logging.getLevelName(record.levelno),
+                  'line_number': record.lineno,
+                  'process': record.processName,
+                  'timestamp': self.formatTime(record),
+                  'thread': record.threadName,
+                  'file': record.filename,
+                  'request': record.args}
+        for key, value in list(output.items()):
+            if not value:
+                del output[key]
+        if 'message' in output:
+            del output['request']
+        return json.dumps(output)
 
 
 def tornado_log_function(handler):
@@ -112,3 +120,24 @@ def tornado_log_function(handler):
                     'query_args': handler.request.query_arguments,
                     'remote_ip': handler.request.remote_ip,
                     'status_code': status_code})
+
+
+def currentframe():
+    """Return the frame object for the caller's stack frame."""
+    try:
+        raise Exception
+    except:
+        traceback = sys.exc_info()[2]
+        frame = traceback.tb_frame
+        while True:
+            if hasattr(frame, 'f_code'):
+                filename = frame.f_code.co_filename
+                if filename.endswith('logging.py') or \
+                        filename.endswith('logging/__init__.py'):
+                    frame = frame.f_back
+                    continue
+                return frame
+        return traceback.tb_frame.f_back
+
+# Monkey-patch currentframe
+logging.currentframe = currentframe
