@@ -1,5 +1,10 @@
 Version History
 ===============
+`1.2.0`_ Jun 23, 2015
+---------------------
+ - Monkeypatch logging.currentframe
+ - Include a logging message if it's there
+
 `1.1.0`_ Jun 18, 2015
 ---------------------
  - Added :class:`sprockets.logging.JSONRequestFormatter`
