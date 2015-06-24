@@ -86,7 +86,7 @@ class JSONRequestFormatter(logging.Formatter):
             if not value:
                 del output[key]
         if 'message' in output:
-            del output['request']
+            output.pop('request', None)
         return json.dumps(output)
 
 
