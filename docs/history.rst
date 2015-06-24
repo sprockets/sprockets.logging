@@ -1,5 +1,10 @@
 Version History
 ===============
+
+`1.2.1`_ Jun 24, 2015
+---------------------
+- Fix a potential ``KeyError`` when a HTTP request object is not present.
+
 `1.2.0`_ Jun 23, 2015
 ---------------------
  - Monkeypatch logging.currentframe
