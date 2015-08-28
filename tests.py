@@ -96,7 +96,8 @@ class TornadoLogFunctionTestCase(unittest.TestCase):
                             'status_code': handler.status_code,
                             'environment': os.environ['ENVIRONMENT']})
         sprockets.logging.tornado_log_function(handler)
-        access_log.assertCalledOnceWith(expectation)
+        access_log.info.assert_called_once_with(*expectation)
+
 
 
 class JSONRequestHandlerTestCase(unittest.TestCase):
@@ -138,3 +139,34 @@ class JSONRequestHandlerTestCase(unittest.TestCase):
         value = json.loads(result)
         for key in keys:
             self.assertIn(key, value)
+
+
+class JSONRequestFormatterTestCase(testing.AsyncHTTPTestCase):
+
+    def setUp(self):
+        super(JSONRequestFormatterTestCase, self).setUp()
+        self.recorder = RecordingHandler()
+        self.formatter = sprockets.logging.JSONRequestFormatter()
+        self.recorder.setFormatter(self.formatter)
+        web.app_log.addHandler(self.recorder)
+
+    def tearDown(self):
+        super(JSONRequestFormatterTestCase, self).tearDown()
+        web.app_log.removeHandler(self.recorder)
+
+    def get_app(self):
+        class JustFail(web.RequestHandler):
+            def get(self):
+                raise RuntimeError('something busted')
+
+        return web.Application([web.url('/', JustFail)])
+
+    def test_that_things_happen(self):
+        self.fetch('/')
+        self.assertEqual(len(self.recorder.log_lines), 1)
+
+        failure_info = json.loads(self.recorder.log_lines[0])
+        self.assertEqual(failure_info['traceback']['type'], 'RuntimeError')
+        self.assertEqual(failure_info['traceback']['message'],
+                         'something busted')
+        self.assertEqual(len(failure_info['traceback']['stack']), 2)
