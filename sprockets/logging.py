@@ -13,6 +13,7 @@ from __future__ import absolute_import
 from logging import config
 import json
 import logging
+import os
 import sys
 
 try:
@@ -65,6 +66,28 @@ class JSONRequestFormatter(logging.Formatter):
     the log data as JSON.
 
     """
+
+    def extract_exc_record(self, typ, val, tb):
+        """Create a JSON representation of the traceback given the records
+        exc_info
+
+        :param `Exception` typ: Exception type of the exception being handled
+        :param `Exception` instance val: instance of the Exception class
+        :param `traceback` tb: traceback object with the call stack
+
+        :rtype: dict
+
+        """
+        exc_record = {'type': typ.__name__,
+                      'message': str(val),
+                      'stack': []}
+        for file_name, line_no, func_name, txt in traceback.extract_tb(tb):
+            exc_record['stack'].append({'file': file_name,
+                                        'line': str(line_no),
+                                        'func': func_name,
+                                        'text': txt})
+        return exc_record
+
     def format(self, record):
         """Return the log data as JSON
 
@@ -72,6 +95,12 @@ class JSONRequestFormatter(logging.Formatter):
         :rtype: str
 
         """
+        if hasattr(record, 'exc_info'):
+            try:
+                traceback = self.extract_exc_record(*record.exc_info)
+            except:
+                traceback = None
+
         output = {'name': record.name,
                   'module': record.module,
                   'message': record.msg % record.args,
@@ -81,7 +110,8 @@ class JSONRequestFormatter(logging.Formatter):
                   'timestamp': self.formatTime(record),
                   'thread': record.threadName,
                   'file': record.filename,
-                  'request': record.args}
+                  'request': record.args,
+                  'traceback': traceback}
         for key, value in list(output.items()):
             if not value:
                 del output[key]
@@ -119,7 +149,8 @@ def tornado_log_function(handler):
                     'protocol': handler.request.protocol,
                     'query_args': handler.request.query_arguments,
                     'remote_ip': handler.request.remote_ip,
-                    'status_code': status_code})
+                    'status_code': status_code,
+                    'environment': os.environ.get('ENVIRONMENT')})
 
 
 def currentframe():

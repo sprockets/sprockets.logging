@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import random
 import unittest
 import uuid
@@ -7,9 +8,10 @@ import uuid
 import mock
 
 import sprockets.logging
+from tornado import web, testing
 
 LOGGER = logging.getLogger(__name__)
-
+os.environ['ENVIRONMENT'] = 'testing'
 
 class Prototype(object):
     pass
@@ -91,7 +93,8 @@ class TornadoLogFunctionTestCase(unittest.TestCase):
                             'protocol': handler.request.protocol,
                             'query_args': handler.request.query_arguments,
                             'remote_ip': handler.request.remote_ip,
-                            'status_code': handler.status_code})
+                            'status_code': handler.status_code,
+                            'environment': os.environ['ENVIRONMENT']})
         sprockets.logging.tornado_log_function(handler)
         access_log.assertCalledOnceWith(expectation)
 
