@@ -1,6 +1,10 @@
 Version History
 ===============
 
+`1.3.0`_ Aug 28, 2015
+---------------------
+- Add the traceback and environment if set
+
 `1.2.1`_ Jun 24, 2015
 ---------------------
 - Fix a potential ``KeyError`` when a HTTP request object is not present.
