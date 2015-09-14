@@ -18,8 +18,9 @@ import sys
 import traceback
 
 try:
-    from tornado import log
-except ImportError:
+    from tornado import escape, log
+except ImportError:  # pragma no cover
+    escape = None
     log = None
 
 version_info = (1, 3, 0)
@@ -148,7 +149,8 @@ def tornado_log_function(handler):
                     'method': handler.request.method,
                     'path': handler.request.path,
                     'protocol': handler.request.protocol,
-                    'query_args': handler.request.query_arguments,
+                    'query_args': escape.recursive_unicode(
+                        handler.request.query_arguments),
                     'remote_ip': handler.request.remote_ip,
                     'status_code': status_code,
                     'environment': os.environ.get('ENVIRONMENT')})
