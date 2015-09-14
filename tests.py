@@ -126,3 +126,37 @@ class TornadoLogFunctionTests(TornadoLoggingTestMixin,
         self.fetch('/?runtime_error=something%20bad%20happened',
                    headers={'Correlation-ID': cid})
         self.assertEqual(self.access_record.args['correlation_id'], cid)
+
+
+class JSONFormatterTests(TornadoLoggingTestMixin, testing.AsyncHTTPTestCase):
+
+    def setUp(self):
+        super(JSONFormatterTests, self).setUp()
+        self.recorder.setFormatter(sprockets.logging.JSONRequestFormatter())
+
+    def get_app(self):
+        return web.Application(
+            [web.url('/', SimpleHandler)],
+            log_function=sprockets.logging.tornado_log_function)
+
+    def get_log_line(self, log_name):
+        for record, line in self.recorder.emitted:
+            if record.name == log_name:
+                return json.loads(line)
+
+    def test_that_messages_are_json_encoded(self):
+        self.fetch('/')
+        for record, line in self.recorder.emitted:
+            json.loads(line)
+
+    def test_that_exception_has_traceback(self):
+        self.fetch('/?runtime_error=foo')
+        entry = self.get_log_line('tornado.application')
+        self.assertIsNotNone(entry.get('traceback'))
+        self.assertNotEqual(entry['traceback'], [])
+
+    def test_that_successes_do_not_have_traceback(self):
+        self.fetch('/')
+        for record, line in self.recorder.emitted:
+            entry = json.loads(line)
+            self.assertNotIn('traceback', entry)
