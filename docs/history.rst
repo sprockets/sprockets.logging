@@ -1,6 +1,10 @@
 Version History
 ===============
 
+`1.3.1`_ Sep 14, 2015
+---------------------
+- Fix query_arguments handling in Python 3
+
 `1.3.0`_ Aug 28, 2015
 ---------------------
 - Add the traceback and environment if set
@@ -32,6 +36,7 @@ Version History
 ---------------------
  - Added :class:`sprockets.logging.ContextFilter`
 
+.. _1.3.1: https://github.com/sprockets/sprockets.logging/compare/1.3.0...1.3.1
 .. _1.3.0: https://github.com/sprockets/sprockets.logging/compare/1.2.1...1.3.0
 .. _1.2.1: https://github.com/sprockets/sprockets.logging/compare/1.2.0...1.2.1
 .. _1.2.0: https://github.com/sprockets/sprockets.logging/compare/1.1.0...1.2.0
