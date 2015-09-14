@@ -4,7 +4,7 @@ python:
 - pypy
 - 3.4
 before_install:
-- pip install nose coverage codecov mock tornado
+- pip install nose coverage codecov tornado
 install:
 - pip install -e .
 script: nosetests

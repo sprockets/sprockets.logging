@@ -11,9 +11,6 @@ install_requires = []
 setup_requires = []
 tests_require = ['nose>=1.3,<2', 'tornado>3,<5']
 
-if sys.version_info < (3, 0):
-    tests_require.append('mock')
-
 setuptools.setup(
     name='sprockets.logging',
     version=sprockets.logging.__version__,
