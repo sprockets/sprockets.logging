@@ -160,3 +160,32 @@ class JSONFormatterTests(TornadoLoggingTestMixin, testing.AsyncHTTPTestCase):
         for record, line in self.recorder.emitted:
             entry = json.loads(line)
             self.assertNotIn('traceback', entry)
+
+
+class ContextFilterTests(TornadoLoggingTestMixin, unittest.TestCase):
+
+    def setUp(self):
+        super(ContextFilterTests, self).setUp()
+        self.logger = logging.getLogger('test-logger')
+        self.recorder.setFormatter(
+            logging.Formatter('%(message)s {CID %(correlation_id)s}'))
+        self.recorder.addFilter(sprockets.logging.ContextFilter(
+            properties=['correlation_id']))
+
+    def test_that_property_is_set_to_none_by_filter_when_missing(self):
+        self.logger.error('error message')
+        _, line = self.recorder.emitted[0]
+        self.assertEqual(line, 'error message {CID None}')
+
+    def test_that_extras_property_is_used(self):
+        self.logger.error('error message',
+                          extra={'correlation_id': 'CORRELATION-ID'})
+        _, line = self.recorder.emitted[0]
+        self.assertEqual(line, 'error message {CID CORRELATION-ID}')
+
+    def test_that_property_from_logging_adapter_works(self):
+        cid = uuid.uuid4()
+        logger = logging.LoggerAdapter(self.logger, {'correlation_id': cid})
+        logger.error('error message')
+        _, line = self.recorder.emitted[0]
+        self.assertEqual(line, 'error message {CID %s}' % cid)
