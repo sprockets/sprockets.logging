@@ -22,7 +22,7 @@ setuptools.setup(
     license='BSD',
     extras_require={'tornado': ['tornado>3,<5']},
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
@@ -36,8 +36,8 @@ setuptools.setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+    packages=setuptools.find_packages(),
     namespace_packages=['sprockets'],
-    py_modules=['sprockets.logging'],
     install_requires=install_requires,
     setup_requires=setup_requires,
     tests_require=tests_require,
