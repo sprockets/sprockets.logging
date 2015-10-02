@@ -23,7 +23,7 @@ except ImportError:  # pragma no cover
     escape = None
     log = None
 
-version_info = (1, 3, 1)
+version_info = (1, 3, 2)
 __version__ = '.'.join(str(v) for v in version_info)
 
 # Shortcut methods and constants to avoid needing to import logging directly

@@ -1,6 +1,10 @@
 Version History
 ===============
 
+`1.3.2`_ Oct  2, 2015
+---------------------
+- Switch to packaging as a package instead of a py_module.
+
 `1.3.1`_ Sep 14, 2015
 ---------------------
 - Fix query_arguments handling in Python 3
@@ -36,6 +40,7 @@ Version History
 ---------------------
  - Added :class:`sprockets.logging.ContextFilter`
 
+.. _1.3.2: https://github.com/sprockets/sprockets.logging/compare/1.3.1...1.3.2
 .. _1.3.1: https://github.com/sprockets/sprockets.logging/compare/1.3.0...1.3.1
 .. _1.3.0: https://github.com/sprockets/sprockets.logging/compare/1.2.1...1.3.0
 .. _1.2.1: https://github.com/sprockets/sprockets.logging/compare/1.2.0...1.2.1
