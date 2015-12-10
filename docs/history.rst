@@ -1,6 +1,10 @@
 Version History
 ===============
 
+`Next Release`_
+---------------
+- Updated ``tornado_log_function`` to work with Tornado 4.3.
+
 `1.3.2`_ Oct  2, 2015
 ---------------------
 - Switch to packaging as a package instead of a py_module.
@@ -39,6 +43,8 @@ Version History
 `1.0.0`_ Jun 09, 2015
 ---------------------
  - Added :class:`sprockets.logging.ContextFilter`
+
+.. _Next Release: https://github.com/sprockets/sprockets.logging/compare/1.3.2...master
 
 .. _1.3.2: https://github.com/sprockets/sprockets.logging/compare/1.3.1...1.3.2
 .. _1.3.1: https://github.com/sprockets/sprockets.logging/compare/1.3.0...1.3.1
