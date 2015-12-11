@@ -145,7 +145,7 @@ def tornado_log_function(handler):
                       handler.request.headers.get('Correlation-ID', None))
     log_method('', {'correlation_id': correlation_id,
                     'duration': 1000.0 * handler.request.request_time(),
-                    'headers': handler.request.headers,
+                    'headers': dict(handler.request.headers),
                     'method': handler.request.method,
                     'path': handler.request.path,
                     'protocol': handler.request.protocol,
